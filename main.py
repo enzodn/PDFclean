@@ -8,7 +8,7 @@ def get_number_before_separator(page):
 
 
 def clean_pdf(pdf_input):
-    pdf_reader = PyPDF2.PdfFileReader(f'{INPUT_PATH}/{pdf_input}')
+    pdf_reader = PyPDF2.PdfFileReader(f'{INPUT_DIRECTORY}/{pdf_input}')
     pdf_writer = PyPDF2.PdfFileWriter()
     last_page_n = pdf_reader.getNumPages() - 1
 
@@ -28,7 +28,7 @@ def clean_pdf(pdf_input):
         pdf_writer.addPage(old_pdf_last_page)
         print(f'Added page: {last_page_n}')
 
-    pdf_output = f'{OUTPUT_PATH}/{pdf_input}'
+    pdf_output = f'{OUTPUT_DIRECTORY}/{pdf_input}'
 
     with open(pdf_output, 'wb') as f:
         pdf_writer.write(f)
@@ -36,15 +36,15 @@ def clean_pdf(pdf_input):
 
 def make_directory():
     try:
-        os.mkdir(OUTPUT_PATH)
-        print("Directory created")
+        os.mkdir(OUTPUT_DIRECTORY)
+        print(f"Directory {OUTPUT_DIRECTORY} created")
     except FileExistsError:
-        print("Directory already exists")
+        print(f"Directory {OUTPUT_DIRECTORY} already exists")
 
 
 def clean_pdf_all():
     make_directory()
-    for entry in os.scandir(INPUT_PATH):
+    for entry in os.scandir(INPUT_DIRECTORY):
         print(f'Processing file: {entry.name}')
         clean_pdf(entry.name)
 
